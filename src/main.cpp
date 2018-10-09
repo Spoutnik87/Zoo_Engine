@@ -8,7 +8,9 @@ int main() {
     Configurator config = Configurator();
 
     Game game = Game();
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(
+        std::stoi(config.get(CONFIG_RESOLUTION_X)),
+        std::stoi(config.get(CONFIG_RESOLUTION_Y))), "ZooEngine");
     
     float t = 0.0;
     float dt = 0.01;
