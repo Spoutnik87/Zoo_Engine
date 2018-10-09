@@ -34,3 +34,6 @@ main
 
 # .vscode
 .vscode
+
+/build
+/dependancies/SFML
