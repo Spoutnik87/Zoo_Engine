@@ -73,5 +73,16 @@ std::string Configurator::get(std::string const& key)
 
 void Configurator::save()
 {
+    std::fstream fs;
 
+    fs.open(this->file, std::fstream::out);
+    fs << "//config file ZooEngine" << std::endl;
+
+    for(std::unordered_map<std::string, std::string>::iterator it = this->config.begin(); it != this->config.end(); it++)
+    {
+        fs << it->first << "=" << it->second << std::endl;
+    }
+
+    fs << std::endl;
+    fs.close();
 }
