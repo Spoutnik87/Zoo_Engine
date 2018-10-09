@@ -63,12 +63,12 @@ Configurator::~Configurator()
 
 void Configurator::set(std::string const& key, std::string const& value)
 {
-
+    this->config[key] = value;
 }
 
 std::string Configurator::get(std::string const& key)
 {
-    return "";
+    return this->config[key];
 }
 
 void Configurator::save()
