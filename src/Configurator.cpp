@@ -27,6 +27,28 @@ Configurator::Configurator()
     }
 
     //load config file
+    fs.open(this->file, std::fstream::in);
+    
+    size_t separator;
+    std::string key;
+    std::string value;
+
+    while(!fs.eof())
+    {
+        std::getline(fs, buffer);
+
+        if(buffer == "" || (buffer[0] == '/' && buffer[1] == '/')){
+            continue;
+        }
+
+        separator = buffer.find("=");
+        key = buffer.substr(0, separator);
+        value = buffer.substr(separator+1, buffer.length() - separator);
+
+        this->config[key] = value;
+    }
+
+    fs.close();
 }
 
 Configurator::Configurator(std::string const& file)
