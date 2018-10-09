@@ -9,9 +9,9 @@ project(ZooEngine)
 file(GLOB_RECURSE SRC "src/*.cpp")
 
 include_directories(include)
-include_directories($(CMAKE_CURRENT_SOURCE_DIR)/dependancies/SFML/include)
+include_directories($(CMAKE_CURRENT_SOURCE_DIR)/dependencies/SFML/include)
 
-link_directories($(CMAKE_CURRENT_SOURCE_DIR)/dependancies/SFML/lib)
+link_directories($(CMAKE_CURRENT_SOURCE_DIR)/dependencies/SFML/lib)
 
 add_executable(ZooEngine ${SRC})
 
