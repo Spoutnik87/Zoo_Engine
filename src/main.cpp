@@ -2,8 +2,11 @@
 #include <SFML/System/Time.hpp>
 #include "Game.h"
 #include "Logger.h"
+#include "Configurator.h"
 
 int main() {
+    Configurator config = Configurator();
+
     Game game = Game();
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     
