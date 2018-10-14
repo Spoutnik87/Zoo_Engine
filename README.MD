@@ -23,7 +23,7 @@
 ### Boost
 
 1. [Téléchargez Boost](https://www.boost.org/users/download/)
-1. Décompressez le dans `/dependencies/Boost`
+1. Décompressez le dans `/dependencies/boost`
 1. > Pour **Linux** : tapez la commande `./bootstrap.sh`
 
    > Pour **Windows** : tapez la commande `./bootstrap.bat`
