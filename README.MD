@@ -16,9 +16,19 @@
 1. Ouvrez un terminal dans `/SFML` et tapez `cmake .`
 1. Utilisez ensuite votre compilateur
 
-> Pour **Linux** : tapez `make` dans le terminal
+   > Pour **Linux** : tapez `make` dans le terminal
 
-> Pour **Windows** : tapez `cmake -G "Visual Studio 15 2017 Win64"` et ouvrez `SFML.sln`
+   > Pour **Windows** : tapez `cmake -G "Visual Studio 15 2017 Win64"` et ouvrez `SFML.sln`
+
+### Boost
+
+1. [Téléchargez Boost](https://www.boost.org/users/download/)
+1. Décompressez le dans `/dependencies/Boost`
+1. > Pour **Linux** : tapez la commande `./bootstrap.sh`
+
+   > Pour **Windows** : tapez la commande `./bootstrap.bat`
+
+1. Tapez ensuite la commande `./bjam`
 
 ### Compilation de ZooEngine
 
