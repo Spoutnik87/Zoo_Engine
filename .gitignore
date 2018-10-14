@@ -36,4 +36,6 @@ main
 .vscode
 
 /build
-/dependencies/SFML
+/dependencies
+/resources
+config.cfg
