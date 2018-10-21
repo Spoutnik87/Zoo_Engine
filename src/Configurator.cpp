@@ -1,88 +1,76 @@
 #include "Configurator.h"
-#include <iostream>
-#include <fstream>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include "Game.h"
 
-#define DEFAULT_CONFIG "//config file ZooEngine \n\
-\n\
-resolution_x=1280\n\
-resolution_y=720\n\
-"
-
-Configurator::Configurator()
-{
-    this->file = "config.cfg";
-
-    std::fstream fs;
-    std::string buffer;
-
-    //test config file exists
-    fs.open(this->file, std::fstream::in);
-    fs >> buffer;
-    fs.close();
-
-    if(buffer == ""){
-        fs.open(this->file, std::fstream::out);
-        fs << DEFAULT_CONFIG;
-        fs.close();
+Configurator::Configurator() {
+    boost::property_tree::ptree config = Game::instance()->getResourceManager()->loadConfig();
+    if (config.empty()) {
+        Game::instance()->getLogger()->info("Chargement de la configuration par défaut.");
+        pt = getDefault();
     }
-
-    //load config file
-    fs.open(this->file, std::fstream::in);
-    
-    size_t separator;
-    std::string key;
-    std::string value;
-
-    while(!fs.eof())
-    {
-        std::getline(fs, buffer);
-
-        if(buffer == "" || (buffer[0] == '/' && buffer[1] == '/')){
-            continue;
-        }
-
-        separator = buffer.find("=");
-        key = buffer.substr(0, separator);
-        value = buffer.substr(separator+1, buffer.length() - separator);
-
-        this->config[key] = value;
+    else {
+        Game::instance()->getLogger()->info("Chargement du fichier de configuration.");
+        pt = config;
     }
-
-    fs.close();
+    save();
 }
 
-Configurator::Configurator(std::string const& file)
-{
-    this->file = file;
+Configurator::~Configurator() {}
+
+
+void Configurator::setWindowX(int x) {
+    set(Element::WindowX, x);
 }
 
-Configurator::~Configurator()
-{
-    
+int Configurator::getWindowX() {
+    return get<int>(Element::WindowX);
 }
 
-void Configurator::set(std::string const& key, std::string const& value)
-{
-    this->config[key] = value;
+void Configurator::setWindowY(int y) {
+    set(Element::WindowY, y);
 }
 
-std::string Configurator::get(std::string const& key)
-{
-    return this->config[key];
+int Configurator::getWindowY() {
+    return get<int>(Element::WindowY);
 }
 
-void Configurator::save()
-{
-    std::fstream fs;
+template<typename T>
+void Configurator::set(Element const& elem, T const& value) {
+    pt.put(getPropertyName(elem), value);
+    save();
+}
 
-    fs.open(this->file, std::fstream::out);
-    fs << "//config file ZooEngine" << std::endl;
-
-    for(std::unordered_map<std::string, std::string>::iterator it = this->config.begin(); it != this->config.end(); it++)
-    {
-        fs << it->first << "=" << it->second << std::endl;
+template<typename T>
+T Configurator::get(Element const& elem) {
+    string key = getPropertyName(elem);
+    try {
+        return pt.get<T>(key);
+    } catch (boost::property_tree::ptree_bad_path error) {
+        return getDefault().get<T>(key);
     }
+}
 
-    fs << std::endl;
-    fs.close();
+void Configurator::save() {
+    Game::instance()->getResourceManager()->saveConfig(pt);
+}
+
+boost::property_tree::ptree Configurator::getDefault() {
+    boost::property_tree::ptree config;
+    config.put(getPropertyName(Element::WindowX), 1280);
+    config.put(getPropertyName(Element::WindowY), 720);
+    return config;
+}
+
+string Configurator::getPropertyName(Element const& elem) {
+    string name;
+    switch(elem) {
+        case WindowX:
+            name = "window.x";
+            break;
+        case WindowY:
+            name = "window.y";
+            break;
+    }
+    return name;
 }

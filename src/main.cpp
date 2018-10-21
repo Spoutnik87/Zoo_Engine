@@ -3,59 +3,12 @@
 #include "Game.h"
 #include "Logger.h"
 #include "Configurator.h"
+#include "InputHandler.h"
+#include "Context.h"
 
 int main() {
-    Configurator config = Configurator();
-
-    Game game = Game();
-    sf::RenderWindow window(sf::VideoMode(
-        std::stoi(config.get(CONFIG_RESOLUTION_X)),
-        std::stoi(config.get(CONFIG_RESOLUTION_Y))), "ZooEngine");
-    
-    float t = 0.0;
-    float dt = 0.01;
-    float currentTime = sf::Time().asSeconds();   
-    float accumulator = 0.0;
-
-    // Boucle de jeu à temps fixe + interpolation.
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-
-        game.getLogger()->info("a");
-        Command* command = game.getInputHandler()->handleInput();
-
-        float newTime = sf::Time().asSeconds();
-        float frameTime = newTime - currentTime;
-        if (frameTime > 0.25) {
-            frameTime = 0.25;
-        }
-        currentTime = newTime;
-
-        accumulator += frameTime;
-
-        while (accumulator >= dt)
-        {
-            //previousState = currentState;
-            //integrate(currentState, t, dt);
-            t += dt;
-            accumulator -= dt;
-        }
-
-        const double alpha = accumulator / dt;
-
-        //State state = currentState * alpha + previousState * ( 1.0 - alpha );
-
-        //render(state);
-
-        window.clear();
-        window.display();
-    }
+    Game *game = new Game();
+    game->run();
     return 0;
 }
 

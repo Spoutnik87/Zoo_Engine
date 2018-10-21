@@ -1,27 +1,30 @@
 #ifndef CONFIGURATOR_H
 #define CONFIGURATOR_H
 
-#include <string>
-#include <unordered_map>
+#include <boost/property_tree/ptree.hpp>
 
-//All config
-#define CONFIG_RESOLUTION_X "resolution_x"
-#define CONFIG_RESOLUTION_Y "resolution_y"
+class Configurator {
+    public:
+        Configurator();
+        ~Configurator();
+        void setWindowX(int x);
+        int getWindowX();
+        void setWindowY(int y);
+        int getWindowY();
+        boost::property_tree::ptree getDefault();
+        enum Element {
+            WindowX = 0,
+            WindowY = 1
+        };
 
-class Configurator
-{
-public:
-    Configurator();
-    Configurator(std::string const& file);
-    ~Configurator();
-
-    void set(std::string const& key, std::string const& value);
-    std::string get(std::string const& key);
-    void save();
-
-private:
-    std::string file;
-    std::unordered_map<std::string, std::string> config;
+    private:
+        boost::property_tree::ptree pt;
+        std::string getPropertyName(Element const& elem);
+        template<typename T>
+        void set(Element const& elem, T const& value);
+        template<typename T>
+        T get(Element const& elem);
+        void save();
 };
 
 #endif

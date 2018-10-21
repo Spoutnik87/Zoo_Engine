@@ -8,6 +8,7 @@ using namespace std;
 class Logger {
     public:
         Logger();
+        ~Logger();
         void info(string message);
         void debug(string message);
         void warn(string message);

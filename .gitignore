@@ -35,6 +35,9 @@ main
 # .vscode
 .vscode
 
+.idea
+
+/cmake-build-debug
 /build
 /dependencies
 /resources

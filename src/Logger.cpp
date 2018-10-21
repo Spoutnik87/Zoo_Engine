@@ -6,6 +6,8 @@ using namespace std;
 
 Logger::Logger() {}
 
+Logger::~Logger() {}
+
 void Logger::log(string message) {
     cout << message << endl;
 }

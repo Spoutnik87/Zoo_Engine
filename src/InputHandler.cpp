@@ -5,6 +5,8 @@
 
 InputHandler::InputHandler() {}
 
+InputHandler::~InputHandler() {}
+
 Command* InputHandler::handleInput() {
     // UP KEY PRESSED
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
